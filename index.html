@@ -66,15 +66,7 @@
   </div>
 
 <script>
-/* 100 easy/medium questions based on: Fundamentals (CIA/AAA/controls/Zero Trust/risk),
-   Threat Actors/Vectors (2.1/2.2), Physical Security, Social Engineering (2.2/5.6),
-   Malware (2.4). */
-
-
-/* =====================================================
-   SECTION: DATA PROTECTION (75 QUESTIONS)
-   ===================================================== */
-const dataProtectionQuestions = [
+const questions = [
 {q:"The primary goal of data classification is to:",opts:["Encrypt all data equally","Define handling and protection requirements","Improve system performance","Meet hardware requirements"],a:1,e:"Classification determines how data must be protected."},
 {q:"Who is responsible for assigning a data classification?",opts:["Data custodian","Data owner","End user","Auditor"],a:1,e:"The data owner defines classification."},
 {q:"Which role is responsible for implementing data controls?",opts:["Data owner","Data custodian","Data subject","Regulator"],a:1,e:"Custodians implement and maintain controls."},
@@ -129,7 +121,7 @@ const dataProtectionQuestions = [
 {q:"Which control supports data lifecycle management?",opts:["Retention policy","Firewall","IDS","VPN"],a:0,e:"Retention governs data lifespan."},
 {q:"Which data is MOST regulated?",opts:["Marketing metrics","Customer PII","Server uptime","Product names"],a:1,e:"PII is legally protected."},
 {q:"Which ensures destroyed data cannot be recovered?",opts:["Formatting","Overwriting once","Crypto erase","Compression"],a:2,e:"Crypto erase removes keys."},
-{q:"Which is a valid DLP action?",opts:["Encrypt only","Block, alert, or quarantine","Patch systems","Scan malware"],a:1,e:"DLP enforces data movement rules."}
+{q:"Which is a valid DLP action?",opts:["Encrypt only","Block, alert, or quarantine","Patch systems","Scan malware"],a:1,e:"DLP enforces data movement rules."},
 {q:"The main purpose of encryption is to:",opts:["Ensure availability","Provide confidentiality","Improve performance","Prevent power loss"],a:1,e:"Encryption protects confidentiality."},
 {q:"Symmetric encryption uses:",opts:["One shared key","Public/private keys","No keys","Certificates only"],a:0,e:"Same key encrypts and decrypts."},
 {q:"Asymmetric encryption uses:",opts:["One shared key","Two related keys","Passwords only","Hashes"],a:1,e:"Public/private key pairs are used."},
@@ -170,7 +162,7 @@ const dataProtectionQuestions = [
 {q:"Which attack targets weak passwords?",opts:["Brute force","Collision","Replay","Padding oracle"],a:0,e:"Brute force guesses passwords."},
 {q:"A replay attack involves:",opts:["Reusing captured transmissions","Guessing keys","Breaking hashes","Changing ciphertext"],a:0,e:"Replays resend valid data."},
 {q:"Nonce usage prevents:",opts:["Replay attacks","Brute force","Hash collisions","DDoS"],a:0,e:"Nonces ensure uniqueness."},
-{q:"Which cryptographic goal ensures data wasn’t altered?",opts:["Confidentiality","Integrity","Availability","Authenticity"],a:1,e:"Integrity detects modification."},
+{q:"Which cryptographic goal ensures data wasnt altered?",opts:["Confidentiality","Integrity","Availability","Authenticity"],a:1,e:"Integrity detects modification."},
 {q:"Which ensures sender authenticity?",opts:["Hashing","Digital signatures","Symmetric encryption","RAID"],a:1,e:"Signatures verify sender identity."},
 {q:"Which key encrypts data in asymmetric crypto?",opts:["Private key","Public key","Session key","Master key"],a:1,e:"Public keys encrypt; private decrypt."},
 {q:"Which key decrypts asymmetric data?",opts:["Public key","Private key","Session key","Shared key"],a:1,e:"Private keys decrypt."},
