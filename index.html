@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -24,7 +23,14 @@
     button.opt[disabled] { opacity: 0.9; cursor: default; }
     .good { border-color:#2d8a55 !important; background:#0f1f17 !important; }
     .bad { border-color:#b04646 !important; background:#241014 !important; }
-    .footer { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+
+    /* Footer layout: Next far right */
+    .footer { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; align-items:center; }
+    #prevBtn { order: 1; }
+    #shuffleBtn { order: 2; }
+    #resetBtn { order: 3; }
+    #nextBtn { order: 4; margin-left:auto; }
+
     .btn {
       background:#2a2a48; border:1px solid #3a3a62; color:#fff;
       padding:10px 12px; border-radius: 12px; font-size: 15px; cursor:pointer;
@@ -54,9 +60,9 @@
 
       <div class="footer">
         <button class="btn" id="prevBtn">Prev</button>
-        <button class="btn" id="nextBtn" disabled>Next</button>
         <button class="btn" id="shuffleBtn">Shuffle Questions</button>
         <button class="btn" id="resetBtn">Reset Score</button>
+        <button class="btn" id="nextBtn" disabled>Next</button>
       </div>
 
       <div class="small" style="margin-top:10px;">
@@ -66,6 +72,7 @@
   </div>
 
 <script>
+
 const questions = [
 {q:"The primary goal of data classification is to:",opts:["Encrypt all data equally","Define handling and protection requirements","Improve system performance","Meet hardware requirements"],a:1,e:"Classification determines how data must be protected."},
 {q:"Who is responsible for assigning a data classification?",opts:["Data custodian","Data owner","End user","Auditor"],a:1,e:"The data owner defines classification."},
@@ -382,10 +389,48 @@ const questions = [
 // ];
 
 // --- Quiz engine ---
-let order = [...Array(questions.length).keys()];
+
+
+const STORAGE_KEY = "secplus_quiz_state_v1";
+
+// safe init (avoids crash if questions not defined)
+let order = (typeof questions !== "undefined")
+  ? [...Array(questions.length).keys()]
+  : [];
+
 let idx = 0;
 let locked = false;
 let stats = {c:0,w:0};
+
+function saveState(){
+  try{
+    const state = { order, idx, stats };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }catch(e){}
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return false;
+    const s = JSON.parse(raw);
+    if(!s || !Array.isArray(s.order)) return false;
+
+    // basic validation
+    order = s.order;
+    idx = Number.isInteger(s.idx) ? s.idx : 0;
+    stats = s.stats && typeof s.stats === "object" ? s.stats : {c:0,w:0};
+
+    if(idx < 0) idx = 0;
+    if(idx >= order.length) idx = 0;
+
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+window.addEventListener("beforeunload", saveState);
 
 const posEl = document.getElementById("pos");
 const scoreEl = document.getElementById("score");
@@ -398,6 +443,14 @@ const shuffleBtn = document.getElementById("shuffleBtn");
 const resetBtn = document.getElementById("resetBtn");
 
 function render(){
+  if(typeof questions === "undefined" || !questions.length){
+    qTextEl.textContent = "Error: questions[] not found. Paste your questions above the script.";
+    optsEl.innerHTML = "";
+    nextBtn.disabled = true;
+    prevBtn.disabled = true;
+    return;
+  }
+
   const qObj = questions[order[idx]];
   posEl.textContent = `Q ${idx+1} / ${order.length}`;
   scoreEl.textContent = `Score: ${stats.c} correct, ${stats.w} wrong`;
@@ -418,6 +471,8 @@ function render(){
     b.addEventListener("click", () => choose(i));
     optsEl.appendChild(b);
   });
+
+  saveState();
 }
 
 function choose(pick){
@@ -426,7 +481,6 @@ function choose(pick){
 
   const qObj = questions[order[idx]];
   const buttons = [...optsEl.querySelectorAll("button.opt")];
-
   buttons.forEach(b => b.disabled = true);
 
   const correct = qObj.a;
@@ -446,29 +500,46 @@ function choose(pick){
 
   scoreEl.textContent = `Score: ${stats.c} correct, ${stats.w} wrong`;
   nextBtn.disabled = false;
+  saveState();
 }
 
 nextBtn.addEventListener("click", () => {
-  if(idx < order.length - 1){ idx++; render(); }
+  if(idx < order.length - 1){
+    idx++;
+    render();
+  }
+  saveState();
 });
+
 prevBtn.addEventListener("click", () => {
-  if(idx > 0){ idx--; render(); }
+  if(idx > 0){
+    idx--;
+    render();
+  }
+  saveState();
 });
+
 shuffleBtn.addEventListener("click", () => {
-  // Fisher-Yates
   for(let i = order.length - 1; i > 0; i--){
     const j = Math.floor(Math.random() * (i + 1));
     [order[i], order[j]] = [order[j], order[i]];
   }
   idx = 0;
-  render();
-});
-resetBtn.addEventListener("click", () => {
-  stats = {c:0,w:0};
-  idx = 0;
+  saveState();
   render();
 });
 
+resetBtn.addEventListener("click", () => {
+  const ok = confirm("Reset score and go back to Question 1?");
+  if(!ok) return;
+  stats = {c:0,w:0};
+  idx = 0;
+  saveState();
+  render();
+});
+
+// restore state if exists
+loadState();
 render();
 </script>
 </body>
