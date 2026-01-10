@@ -26,10 +26,22 @@
 
     /* Footer layout: Next far right */
     .footer { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; align-items:center; }
-    #prevBtn { order: 1; }
-    #shuffleBtn { order: 2; }
+    #prevBtn { order: 2; }
+    #shuffleBtn { order: 1; }
     #resetBtn { order: 0; }
-    #nextBtn { order: 4; margin-left:auto;color: red;background-color: white; }
+    #nextBtn{
+  order: 4;
+  margin-left: auto;
+  color: red;
+  background-color: white;
+
+  /* make it bigger */
+  font-size: 22px;
+  padding: 15px 20px;
+  /* optional */
+  border: 2px solid red;
+  border-radius: 10px;
+}
 
     .btn {
       background:#2a2a48; border:1px solid #3a3a62; color:#fff;
