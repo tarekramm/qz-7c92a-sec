@@ -85,125 +85,120 @@
 
 <script>
 
-const questions = [
-{q:"The primary goal of data classification is to:",opts:["Encrypt all data equally","Define handling and protection requirements","Improve system performance","Meet hardware requirements"],a:1,e:"Classification determines how data must be protected."},
-{q:"Who is responsible for assigning a data classification?",opts:["Data custodian","Data owner","End user","Auditor"],a:1,e:"The data owner defines classification."},
-{q:"Which role is responsible for implementing data controls?",opts:["Data owner","Data custodian","Data subject","Regulator"],a:1,e:"Custodians implement and maintain controls."},
-{q:"Public data typically requires:",opts:["Encryption","Strict access control","No special protection","Air-gapped storage"],a:2,e:"Public data is intended for open access."},
-{q:"Which classification usually has the highest protection?",opts:["Internal","Confidential","Private","Restricted"],a:3,e:"Restricted data is the most sensitive."},
-{q:"PII stands for:",opts:["Private Internet Information","Personally Identifiable Information","Protected Internal Infrastructure","Public Identity Index"],a:1,e:"PII identifies an individual."},
-{q:"PHI is regulated primarily under:",opts:["PCI-DSS","HIPAA","GDPR","SOX"],a:1,e:"HIPAA protects health information."},
-{q:"Data at rest is best protected using:",opts:["TLS","Disk encryption","Hashing","Tokenization only"],a:1,e:"Encryption protects stored data."},
-{q:"Data in transit is best protected using:",opts:["AES","TLS","RAID","Checksums"],a:1,e:"TLS encrypts data in motion."},
-{q:"Data in use refers to data that is:",opts:["Stored on disk","Being processed in memory","Being transmitted","Archived"],a:1,e:"Data in use exists in memory/CPU."},
-{q:"Which control helps prevent data exfiltration?",opts:["DLP","IDS","RAID","UPS"],a:0,e:"DLP prevents unauthorized data movement."},
-{q:"DLP is MOST effective at:",opts:["Blocking malware","Detecting insider leaks","Improving availability","Encrypting backups"],a:1,e:"DLP focuses on sensitive data leaks."},
-{q:"Tokenization replaces sensitive data with:",opts:["Encrypted values","Random tokens","Hashed strings","Plaintext copies"],a:1,e:"Tokens have no exploitable meaning."},
-{q:"Which is TRUE about tokenization?",opts:["Reversible without a map","Requires encryption keys","Uses lookup tables","Always uses hashing"],a:2,e:"Tokenization relies on token vaults."},
-{q:"Masking data usually means:",opts:["Encrypting it","Removing it permanently","Hiding portions of data","Hashing entire values"],a:2,e:"Masking obscures sensitive parts."},
-{q:"A common example of data masking is:",opts:["AES encryption","XXXX-XXXX-1234","SHA-256","TLS handshake"],a:1,e:"Only part of the data is revealed."},
-{q:"Data sovereignty refers to:",opts:["Who owns data","Where data is physically stored","Who can access data","How data is encrypted"],a:1,e:"Data is subject to local laws."},
-{q:"GDPR mainly applies to:",opts:["US citizens","EU residents","Healthcare data","Payment cards"],a:1,e:"GDPR protects EU personal data."},
-{q:"Right to be forgotten allows users to:",opts:["Encrypt their data","Delete personal data","Transfer data freely","Access private keys"],a:1,e:"GDPR grants erasure rights."},
-{q:"Which is an example of regulated data?",opts:["Public website text","Employee medical records","Company logo","Press release"],a:1,e:"Medical records are regulated."},
-{q:"Data retention policies define:",opts:["Encryption methods","How long data is kept","Access permissions","Network zones"],a:1,e:"Retention controls data lifecycle."},
-{q:"Secure data destruction ensures:",opts:["Data is archived","Data cannot be recovered","Data is encrypted","Data is duplicated"],a:1,e:"Destruction prevents recovery."},
-{q:"Which method BEST sanitizes SSDs?",opts:["Overwriting","Degaussing","Cryptographic erase","Low-level formatting"],a:2,e:"Crypto erase invalidates keys instantly."},
-{q:"Which control reduces data exposure from lost laptops?",opts:["RAID","Full-disk encryption","IDS","Firewall"],a:1,e:"Disk encryption protects lost devices."},
-{q:"Data minimization means:",opts:["Collect everything","Collect only necessary data","Encrypt all data","Archive unused data"],a:1,e:"Minimization reduces risk surface."},
-{q:"Which role ensures compliance with data laws?",opts:["System admin","Compliance officer","End user","Pen tester"],a:1,e:"Compliance oversees regulatory alignment."},
-{q:"Which is a privacy-enhancing technology?",opts:["Firewall","Tokenization","RAID","Load balancer"],a:1,e:"Tokenization limits exposure."},
-{q:"Data labeling helps by:",opts:["Encrypting files","Identifying sensitivity","Blocking users","Deleting data"],a:1,e:"Labels guide handling rules."},
-{q:"Which is TRUE about backups?",opts:["They increase confidentiality","They improve availability","They prevent malware","They replace encryption"],a:1,e:"Backups support availability."},
-{q:"Offline backups mainly protect against:",opts:["DDoS","Insider misuse","Ransomware","Phishing"],a:2,e:"Offline backups resist ransomware."},
-{q:"Which data state is MOST vulnerable to attack?",opts:["At rest","In transit","In use","Archived"],a:2,e:"Data in memory is hardest to protect."},
-{q:"Which regulation focuses on payment cards?",opts:["HIPAA","GDPR","PCI-DSS","SOX"],a:2,e:"PCI-DSS governs card data."},
-{q:"An example of sensitive corporate data is:",opts:["Marketing blog","Source code","Public pricing","Job listings"],a:1,e:"Source code is proprietary."},
-{q:"Access controls mainly enforce:",opts:["Availability","Authorization","Integrity","Encryption"],a:1,e:"Access controls manage permissions."},
-{q:"Which principle limits data exposure?",opts:["Least privilege","Redundancy","Availability","Hashing"],a:0,e:"Least privilege reduces access."},
-{q:"Data loss prevention policies usually trigger on:",opts:["CPU usage","Sensitive data patterns","Network latency","Disk I/O"],a:1,e:"DLP matches sensitive content."},
-{q:"Which is NOT a data state?",opts:["At rest","In use","In transit","In archive"],a:3,e:"Archive is storage, not a state."},
-{q:"Which control protects confidentiality?",opts:["Encryption","Backups","RAID","Load balancing"],a:0,e:"Encryption protects secrecy."},
-{q:"Data ownership primarily means:",opts:["Who stores data","Who controls data","Who encrypts data","Who accesses data"],a:1,e:"Ownership defines responsibility."},
-{q:"Which technique anonymizes data?",opts:["Tokenization","Encryption","Hashing","Masking"],a:0,e:"Tokenization removes identity linkage."},
-{q:"Which is a privacy risk?",opts:["Over-collection","Encryption","Data minimization","Labeling"],a:0,e:"Collecting excess data increases risk."},
-{q:"Which ensures data integrity?",opts:["Hashing","Backups","Encryption","Tokenization"],a:0,e:"Hashes detect modification."},
-{q:"Data custodians are typically:",opts:["Executives","IT staff","Auditors","Customers"],a:1,e:"IT manages data systems."},
-{q:"Which data requires explicit consent?",opts:["Public data","PII","Internal data","System logs"],a:1,e:"PII often requires consent."},
-{q:"Which law impacts cross-border data storage?",opts:["HIPAA","GDPR","SOX","FISMA"],a:1,e:"GDPR enforces data residency."},
-{q:"Which control BEST reduces accidental data leaks?",opts:["User training","Firewalls","Encryption","Hashing"],a:0,e:"Training reduces human error."},
-{q:"Data classification labels should be:",opts:["Hidden","Consistent","Encrypted","Optional"],a:1,e:"Consistency avoids mistakes."},
-{q:"Which practice reduces breach impact?",opts:["Data minimization","Data duplication","Long retention","Open access"],a:0,e:"Less data means less loss."},
-{q:"Which is an example of confidential data?",opts:["Press release","Employee SSN","Website banner","Company address"],a:1,e:"SSNs are highly sensitive."},
-{q:"Which action violates data protection principles?",opts:["Encrypting backups","Sharing PII without consent","Labeling data","Using DLP"],a:1,e:"Unauthorized sharing is a violation."},
-{q:"Which supports compliance reporting?",opts:["Audit logs","Encryption","Hashing","Backups"],a:0,e:"Logs provide accountability."},
-{q:"Which control supports data lifecycle management?",opts:["Retention policy","Firewall","IDS","VPN"],a:0,e:"Retention governs data lifespan."},
-{q:"Which data is MOST regulated?",opts:["Marketing metrics","Customer PII","Server uptime","Product names"],a:1,e:"PII is legally protected."},
-{q:"Which ensures destroyed data cannot be recovered?",opts:["Formatting","Overwriting once","Crypto erase","Compression"],a:2,e:"Crypto erase removes keys."},
-{q:"Which is a valid DLP action?",opts:["Encrypt only","Block, alert, or quarantine","Patch systems","Scan malware"],a:1,e:"DLP enforces data movement rules."},
-{q:"The main purpose of encryption is to:",opts:["Ensure availability","Provide confidentiality","Improve performance","Prevent power loss"],a:1,e:"Encryption protects confidentiality."},
-{q:"Symmetric encryption uses:",opts:["One shared key","Public/private keys","No keys","Certificates only"],a:0,e:"Same key encrypts and decrypts."},
-{q:"Asymmetric encryption uses:",opts:["One shared key","Two related keys","Passwords only","Hashes"],a:1,e:"Public/private key pairs are used."},
-{q:"Which is a symmetric algorithm?",opts:["RSA","ECC","AES","DSA"],a:2,e:"AES is symmetric."},
-{q:"Which is an asymmetric algorithm?",opts:["AES","3DES","RSA","SHA-256"],a:2,e:"RSA uses public/private keys."},
-{q:"Hashing provides:",opts:["Confidentiality","Integrity","Availability","Authentication"],a:1,e:"Hashes detect changes."},
-{q:"Hashing is:",opts:["Reversible","Irreversible","Symmetric","Encrypted"],a:1,e:"Hashes cannot be reversed."},
-{q:"Which is a secure hash algorithm?",opts:["MD5","SHA-1","SHA-256","DES"],a:2,e:"SHA-256 is still secure."},
-{q:"Salting hashes is used to:",opts:["Speed encryption","Prevent rainbow table attacks","Encrypt data","Reduce key size"],a:1,e:"Salts defeat precomputed attacks."},
-{q:"PKI is used to manage:",opts:["Passwords","Certificates","Firewalls","RAID"],a:1,e:"PKI manages digital certificates."},
-{q:"A digital certificate binds:",opts:["Data to disk","Identity to public key","Hash to password","IP to MAC"],a:1,e:"Certificates link identity and keys."},
-{q:"Who issues digital certificates?",opts:["CA","RAID controller","Firewall","User"],a:0,e:"Certificate Authorities issue certs."},
-{q:"The private key should be:",opts:["Shared publicly","Stored securely","Emailed","Logged"],a:1,e:"Private keys must remain secret."},
-{q:"TLS primarily protects:",opts:["Data at rest","Data in transit","Data in use","Archived data"],a:1,e:"TLS encrypts network traffic."},
-{q:"Which provides non-repudiation?",opts:["Hashing","Digital signatures","Symmetric encryption","RAID"],a:1,e:"Signatures prove origin."},
-{q:"Digital signatures use:",opts:["Symmetric keys","Private keys","Passwords","Tokens"],a:1,e:"Private keys sign data."},
-{q:"Key exchange allows:",opts:["Sharing private keys","Securely sharing symmetric keys","Hashing data","Encrypting disks"],a:1,e:"Asymmetric crypto exchanges session keys."},
-{q:"Which is faster?",opts:["Asymmetric encryption","Symmetric encryption","Hashing","Tokenization"],a:1,e:"Symmetric crypto is computationally faster."},
-{q:"AES key sizes include:",opts:["64-bit","128-bit","512-bit","1024-bit"],a:1,e:"AES supports 128/192/256-bit."},
-{q:"RSA security is based on:",opts:["Hash collisions","Prime factorization","Elliptic curves","XOR operations"],a:1,e:"RSA relies on factoring difficulty."},
-{q:"ECC is popular because it:",opts:["Uses large keys","Is slower","Uses smaller keys for same strength","Is deprecated"],a:2,e:"ECC provides strong security with smaller keys."},
-{q:"Which is NOT a cryptographic attack?",opts:["Brute force","Collision","Rainbow table","Tailgating"],a:3,e:"Tailgating is physical/social."},
-{q:"A brute-force attack attempts to:",opts:["Guess all possible keys","Intercept traffic","Modify hashes","Exploit trust"],a:0,e:"Brute force tries every key."},
-{q:"A collision attack targets:",opts:["Encryption keys","Hash functions","Passwords","Certificates only"],a:1,e:"Collisions break hash integrity."},
-{q:"Obfuscation primarily:",opts:["Encrypts data","Hides code intent","Hashes data","Signs data"],a:1,e:"Obfuscation makes code harder to understand."},
-{q:"Obfuscation alone provides:",opts:["Strong security","No real security","Confidentiality","Integrity"],a:1,e:"Obfuscation is not true security."},
-{q:"Which tool encrypts entire disks?",opts:["FDE","TLS","HMAC","DLP"],a:0,e:"Full Disk Encryption protects storage."},
-{q:"HMAC combines:",opts:["Encryption + RAID","Hashing + secret key","TLS + AES","RSA + ECC"],a:1,e:"HMAC adds authentication to hashing."},
-{q:"Which ensures message integrity AND authenticity?",opts:["Hash","HMAC","AES","RSA"],a:1,e:"HMAC verifies sender and integrity."},
-{q:"Key rotation helps by:",opts:["Increasing availability","Reducing exposure if keys are compromised","Speeding encryption","Preventing backups"],a:1,e:"Frequent rotation limits damage."},
-{q:"Key escrow means:",opts:["Destroying keys","Storing backup keys securely","Sharing keys publicly","Avoiding encryption"],a:1,e:"Escrow allows recovery."},
-{q:"Which is a stream cipher?",opts:["AES","RC4","RSA","SHA-256"],a:1,e:"RC4 is a stream cipher."},
-{q:"Which is a block cipher?",opts:["AES","RC4","SHA","HMAC"],a:0,e:"AES is a block cipher."},
-{q:"Initialization vectors (IVs) are used to:",opts:["Store keys","Ensure randomness","Encrypt hashes","Replace keys"],a:1,e:"IVs prevent pattern repetition."},
-{q:"Which mode provides confidentiality AND integrity?",opts:["ECB","CBC","GCM","CTR"],a:2,e:"GCM provides authenticated encryption."},
-{q:"ECB mode is discouraged because it:",opts:["Is slow","Reveals patterns","Uses IVs","Requires PKI"],a:1,e:"ECB leaks data patterns."},
-{q:"Which is TRUE about hashing passwords?",opts:["Encrypt them","Use salts","Store plaintext","Reuse hashes"],a:1,e:"Salting strengthens password storage."},
-{q:"Which attack targets weak passwords?",opts:["Brute force","Collision","Replay","Padding oracle"],a:0,e:"Brute force guesses passwords."},
-{q:"A replay attack involves:",opts:["Reusing captured transmissions","Guessing keys","Breaking hashes","Changing ciphertext"],a:0,e:"Replays resend valid data."},
-{q:"Nonce usage prevents:",opts:["Replay attacks","Brute force","Hash collisions","DDoS"],a:0,e:"Nonces ensure uniqueness."},
-{q:"Which cryptographic goal ensures data wasnt altered?",opts:["Confidentiality","Integrity","Availability","Authenticity"],a:1,e:"Integrity detects modification."},
-{q:"Which ensures sender authenticity?",opts:["Hashing","Digital signatures","Symmetric encryption","RAID"],a:1,e:"Signatures verify sender identity."},
-{q:"Which key encrypts data in asymmetric crypto?",opts:["Private key","Public key","Session key","Master key"],a:1,e:"Public keys encrypt; private decrypt."},
-{q:"Which key decrypts asymmetric data?",opts:["Public key","Private key","Session key","Shared key"],a:1,e:"Private keys decrypt."},
-{q:"Which uses certificates to validate identity?",opts:["PKI","DLP","RAID","IDS"],a:0,e:"PKI manages trust."},
-{q:"Certificate revocation is checked via:",opts:["CRL or OCSP","AES","RAID","TLS only"],a:0,e:"CRL/OCSP verify cert validity."},
-{q:"Which attack exploits weak IV handling?",opts:["Replay","Padding oracle","Collision","Tailgating"],a:1,e:"Padding oracle abuses crypto implementation."},
-{q:"Which crypto principle limits damage from compromise?",opts:["Key rotation","Obfuscation","Longer passwords","Compression"],a:0,e:"Rotation reduces exposure window."},
-{q:"Which tool signs software updates?",opts:["Digital signatures","AES","HMAC only","DLP"],a:0,e:"Signatures verify update authenticity."},
-{q:"Which provides both encryption and authentication?",opts:["AES-GCM","ECB","SHA-256","RSA alone"],a:0,e:"GCM provides AEAD."},
-{q:"Which is NOT a valid cryptographic goal?",opts:["Confidentiality","Integrity","Availability","Non-repudiation"],a:2,e:"Availability is not cryptographic."},
-{q:"Which crypto solution protects backups?",opts:["Encryption","RAID","Hashing","Load balancing"],a:0,e:"Encrypting backups protects confidentiality."},
-{q:"Which ensures encrypted data cannot be decrypted without key?",opts:["Strong key management","Obfuscation","RAID","Tokenization"],a:0,e:"Key management is critical."},
-{q:"Which crypto failure is MOST dangerous?",opts:["Key reuse","Key compromise","Long passwords","Key rotation"],a:1,e:"Compromised keys break security."},
-{q:"Which protects against MITM attacks?",opts:["Certificate validation","Hashing","RAID","Tokenization"],a:0,e:"Cert validation ensures trust."},
-{q:"Which attack targets encryption keys?",opts:["Brute force","Collision","Replay","Tailgating"],a:0,e:"Brute force attempts key guessing."},
-{q:"Which crypto method is fastest for bulk data?",opts:["AES","RSA","ECC","DSA"],a:0,e:"Symmetric crypto is fastest."}
-
-
-
-];
-
-
+// const questions = [
+// {q:"The primary goal of data classification is to:",opts:["Encrypt all data equally","Define handling and protection requirements","Improve system performance","Meet hardware requirements"],a:1,e:"Classification determines how data must be protected."},
+// {q:"Who is responsible for assigning a data classification?",opts:["Data custodian","Data owner","End user","Auditor"],a:1,e:"The data owner defines classification."},
+// {q:"Which role is responsible for implementing data controls?",opts:["Data owner","Data custodian","Data subject","Regulator"],a:1,e:"Custodians implement and maintain controls."},
+// {q:"Public data typically requires:",opts:["Encryption","Strict access control","No special protection","Air-gapped storage"],a:2,e:"Public data is intended for open access."},
+// {q:"Which classification usually has the highest protection?",opts:["Internal","Confidential","Private","Restricted"],a:3,e:"Restricted data is the most sensitive."},
+// {q:"PII stands for:",opts:["Private Internet Information","Personally Identifiable Information","Protected Internal Infrastructure","Public Identity Index"],a:1,e:"PII identifies an individual."},
+// {q:"PHI is regulated primarily under:",opts:["PCI-DSS","HIPAA","GDPR","SOX"],a:1,e:"HIPAA protects health information."},
+// {q:"Data at rest is best protected using:",opts:["TLS","Disk encryption","Hashing","Tokenization only"],a:1,e:"Encryption protects stored data."},
+// {q:"Data in transit is best protected using:",opts:["AES","TLS","RAID","Checksums"],a:1,e:"TLS encrypts data in motion."},
+// {q:"Data in use refers to data that is:",opts:["Stored on disk","Being processed in memory","Being transmitted","Archived"],a:1,e:"Data in use exists in memory/CPU."},
+// {q:"Which control helps prevent data exfiltration?",opts:["DLP","IDS","RAID","UPS"],a:0,e:"DLP prevents unauthorized data movement."},
+// {q:"DLP is MOST effective at:",opts:["Blocking malware","Detecting insider leaks","Improving availability","Encrypting backups"],a:1,e:"DLP focuses on sensitive data leaks."},
+// {q:"Tokenization replaces sensitive data with:",opts:["Encrypted values","Random tokens","Hashed strings","Plaintext copies"],a:1,e:"Tokens have no exploitable meaning."},
+// {q:"Which is TRUE about tokenization?",opts:["Reversible without a map","Requires encryption keys","Uses lookup tables","Always uses hashing"],a:2,e:"Tokenization relies on token vaults."},
+// {q:"Masking data usually means:",opts:["Encrypting it","Removing it permanently","Hiding portions of data","Hashing entire values"],a:2,e:"Masking obscures sensitive parts."},
+// {q:"A common example of data masking is:",opts:["AES encryption","XXXX-XXXX-1234","SHA-256","TLS handshake"],a:1,e:"Only part of the data is revealed."},
+// {q:"Data sovereignty refers to:",opts:["Who owns data","Where data is physically stored","Who can access data","How data is encrypted"],a:1,e:"Data is subject to local laws."},
+// {q:"GDPR mainly applies to:",opts:["US citizens","EU residents","Healthcare data","Payment cards"],a:1,e:"GDPR protects EU personal data."},
+// {q:"Right to be forgotten allows users to:",opts:["Encrypt their data","Delete personal data","Transfer data freely","Access private keys"],a:1,e:"GDPR grants erasure rights."},
+// {q:"Which is an example of regulated data?",opts:["Public website text","Employee medical records","Company logo","Press release"],a:1,e:"Medical records are regulated."},
+// {q:"Data retention policies define:",opts:["Encryption methods","How long data is kept","Access permissions","Network zones"],a:1,e:"Retention controls data lifecycle."},
+// {q:"Secure data destruction ensures:",opts:["Data is archived","Data cannot be recovered","Data is encrypted","Data is duplicated"],a:1,e:"Destruction prevents recovery."},
+// {q:"Which method BEST sanitizes SSDs?",opts:["Overwriting","Degaussing","Cryptographic erase","Low-level formatting"],a:2,e:"Crypto erase invalidates keys instantly."},
+// {q:"Which control reduces data exposure from lost laptops?",opts:["RAID","Full-disk encryption","IDS","Firewall"],a:1,e:"Disk encryption protects lost devices."},
+// {q:"Data minimization means:",opts:["Collect everything","Collect only necessary data","Encrypt all data","Archive unused data"],a:1,e:"Minimization reduces risk surface."},
+// {q:"Which role ensures compliance with data laws?",opts:["System admin","Compliance officer","End user","Pen tester"],a:1,e:"Compliance oversees regulatory alignment."},
+// {q:"Which is a privacy-enhancing technology?",opts:["Firewall","Tokenization","RAID","Load balancer"],a:1,e:"Tokenization limits exposure."},
+// {q:"Data labeling helps by:",opts:["Encrypting files","Identifying sensitivity","Blocking users","Deleting data"],a:1,e:"Labels guide handling rules."},
+// {q:"Which is TRUE about backups?",opts:["They increase confidentiality","They improve availability","They prevent malware","They replace encryption"],a:1,e:"Backups support availability."},
+// {q:"Offline backups mainly protect against:",opts:["DDoS","Insider misuse","Ransomware","Phishing"],a:2,e:"Offline backups resist ransomware."},
+// {q:"Which data state is MOST vulnerable to attack?",opts:["At rest","In transit","In use","Archived"],a:2,e:"Data in memory is hardest to protect."},
+// {q:"Which regulation focuses on payment cards?",opts:["HIPAA","GDPR","PCI-DSS","SOX"],a:2,e:"PCI-DSS governs card data."},
+// {q:"An example of sensitive corporate data is:",opts:["Marketing blog","Source code","Public pricing","Job listings"],a:1,e:"Source code is proprietary."},
+// {q:"Access controls mainly enforce:",opts:["Availability","Authorization","Integrity","Encryption"],a:1,e:"Access controls manage permissions."},
+// {q:"Which principle limits data exposure?",opts:["Least privilege","Redundancy","Availability","Hashing"],a:0,e:"Least privilege reduces access."},
+// {q:"Data loss prevention policies usually trigger on:",opts:["CPU usage","Sensitive data patterns","Network latency","Disk I/O"],a:1,e:"DLP matches sensitive content."},
+// {q:"Which is NOT a data state?",opts:["At rest","In use","In transit","In archive"],a:3,e:"Archive is storage, not a state."},
+// {q:"Which control protects confidentiality?",opts:["Encryption","Backups","RAID","Load balancing"],a:0,e:"Encryption protects secrecy."},
+// {q:"Data ownership primarily means:",opts:["Who stores data","Who controls data","Who encrypts data","Who accesses data"],a:1,e:"Ownership defines responsibility."},
+// {q:"Which technique anonymizes data?",opts:["Tokenization","Encryption","Hashing","Masking"],a:0,e:"Tokenization removes identity linkage."},
+// {q:"Which is a privacy risk?",opts:["Over-collection","Encryption","Data minimization","Labeling"],a:0,e:"Collecting excess data increases risk."},
+// {q:"Which ensures data integrity?",opts:["Hashing","Backups","Encryption","Tokenization"],a:0,e:"Hashes detect modification."},
+// {q:"Data custodians are typically:",opts:["Executives","IT staff","Auditors","Customers"],a:1,e:"IT manages data systems."},
+// {q:"Which data requires explicit consent?",opts:["Public data","PII","Internal data","System logs"],a:1,e:"PII often requires consent."},
+// {q:"Which law impacts cross-border data storage?",opts:["HIPAA","GDPR","SOX","FISMA"],a:1,e:"GDPR enforces data residency."},
+// {q:"Which control BEST reduces accidental data leaks?",opts:["User training","Firewalls","Encryption","Hashing"],a:0,e:"Training reduces human error."},
+// {q:"Data classification labels should be:",opts:["Hidden","Consistent","Encrypted","Optional"],a:1,e:"Consistency avoids mistakes."},
+// {q:"Which practice reduces breach impact?",opts:["Data minimization","Data duplication","Long retention","Open access"],a:0,e:"Less data means less loss."},
+// {q:"Which is an example of confidential data?",opts:["Press release","Employee SSN","Website banner","Company address"],a:1,e:"SSNs are highly sensitive."},
+// {q:"Which action violates data protection principles?",opts:["Encrypting backups","Sharing PII without consent","Labeling data","Using DLP"],a:1,e:"Unauthorized sharing is a violation."},
+// {q:"Which supports compliance reporting?",opts:["Audit logs","Encryption","Hashing","Backups"],a:0,e:"Logs provide accountability."},
+// {q:"Which control supports data lifecycle management?",opts:["Retention policy","Firewall","IDS","VPN"],a:0,e:"Retention governs data lifespan."},
+// {q:"Which data is MOST regulated?",opts:["Marketing metrics","Customer PII","Server uptime","Product names"],a:1,e:"PII is legally protected."},
+// {q:"Which ensures destroyed data cannot be recovered?",opts:["Formatting","Overwriting once","Crypto erase","Compression"],a:2,e:"Crypto erase removes keys."},
+// {q:"Which is a valid DLP action?",opts:["Encrypt only","Block, alert, or quarantine","Patch systems","Scan malware"],a:1,e:"DLP enforces data movement rules."},
+// {q:"The main purpose of encryption is to:",opts:["Ensure availability","Provide confidentiality","Improve performance","Prevent power loss"],a:1,e:"Encryption protects confidentiality."},
+// {q:"Symmetric encryption uses:",opts:["One shared key","Public/private keys","No keys","Certificates only"],a:0,e:"Same key encrypts and decrypts."},
+// {q:"Asymmetric encryption uses:",opts:["One shared key","Two related keys","Passwords only","Hashes"],a:1,e:"Public/private key pairs are used."},
+// {q:"Which is a symmetric algorithm?",opts:["RSA","ECC","AES","DSA"],a:2,e:"AES is symmetric."},
+// {q:"Which is an asymmetric algorithm?",opts:["AES","3DES","RSA","SHA-256"],a:2,e:"RSA uses public/private keys."},
+// {q:"Hashing provides:",opts:["Confidentiality","Integrity","Availability","Authentication"],a:1,e:"Hashes detect changes."},
+// {q:"Hashing is:",opts:["Reversible","Irreversible","Symmetric","Encrypted"],a:1,e:"Hashes cannot be reversed."},
+// {q:"Which is a secure hash algorithm?",opts:["MD5","SHA-1","SHA-256","DES"],a:2,e:"SHA-256 is still secure."},
+// {q:"Salting hashes is used to:",opts:["Speed encryption","Prevent rainbow table attacks","Encrypt data","Reduce key size"],a:1,e:"Salts defeat precomputed attacks."},
+// {q:"PKI is used to manage:",opts:["Passwords","Certificates","Firewalls","RAID"],a:1,e:"PKI manages digital certificates."},
+// {q:"A digital certificate binds:",opts:["Data to disk","Identity to public key","Hash to password","IP to MAC"],a:1,e:"Certificates link identity and keys."},
+// {q:"Who issues digital certificates?",opts:["CA","RAID controller","Firewall","User"],a:0,e:"Certificate Authorities issue certs."},
+// {q:"The private key should be:",opts:["Shared publicly","Stored securely","Emailed","Logged"],a:1,e:"Private keys must remain secret."},
+// {q:"TLS primarily protects:",opts:["Data at rest","Data in transit","Data in use","Archived data"],a:1,e:"TLS encrypts network traffic."},
+// {q:"Which provides non-repudiation?",opts:["Hashing","Digital signatures","Symmetric encryption","RAID"],a:1,e:"Signatures prove origin."},
+// {q:"Digital signatures use:",opts:["Symmetric keys","Private keys","Passwords","Tokens"],a:1,e:"Private keys sign data."},
+// {q:"Key exchange allows:",opts:["Sharing private keys","Securely sharing symmetric keys","Hashing data","Encrypting disks"],a:1,e:"Asymmetric crypto exchanges session keys."},
+// {q:"Which is faster?",opts:["Asymmetric encryption","Symmetric encryption","Hashing","Tokenization"],a:1,e:"Symmetric crypto is computationally faster."},
+// {q:"AES key sizes include:",opts:["64-bit","128-bit","512-bit","1024-bit"],a:1,e:"AES supports 128/192/256-bit."},
+// {q:"RSA security is based on:",opts:["Hash collisions","Prime factorization","Elliptic curves","XOR operations"],a:1,e:"RSA relies on factoring difficulty."},
+// {q:"ECC is popular because it:",opts:["Uses large keys","Is slower","Uses smaller keys for same strength","Is deprecated"],a:2,e:"ECC provides strong security with smaller keys."},
+// {q:"Which is NOT a cryptographic attack?",opts:["Brute force","Collision","Rainbow table","Tailgating"],a:3,e:"Tailgating is physical/social."},
+// {q:"A brute-force attack attempts to:",opts:["Guess all possible keys","Intercept traffic","Modify hashes","Exploit trust"],a:0,e:"Brute force tries every key."},
+// {q:"A collision attack targets:",opts:["Encryption keys","Hash functions","Passwords","Certificates only"],a:1,e:"Collisions break hash integrity."},
+// {q:"Obfuscation primarily:",opts:["Encrypts data","Hides code intent","Hashes data","Signs data"],a:1,e:"Obfuscation makes code harder to understand."},
+// {q:"Obfuscation alone provides:",opts:["Strong security","No real security","Confidentiality","Integrity"],a:1,e:"Obfuscation is not true security."},
+// {q:"Which tool encrypts entire disks?",opts:["FDE","TLS","HMAC","DLP"],a:0,e:"Full Disk Encryption protects storage."},
+// {q:"HMAC combines:",opts:["Encryption + RAID","Hashing + secret key","TLS + AES","RSA + ECC"],a:1,e:"HMAC adds authentication to hashing."},
+// {q:"Which ensures message integrity AND authenticity?",opts:["Hash","HMAC","AES","RSA"],a:1,e:"HMAC verifies sender and integrity."},
+// {q:"Key rotation helps by:",opts:["Increasing availability","Reducing exposure if keys are compromised","Speeding encryption","Preventing backups"],a:1,e:"Frequent rotation limits damage."},
+// {q:"Key escrow means:",opts:["Destroying keys","Storing backup keys securely","Sharing keys publicly","Avoiding encryption"],a:1,e:"Escrow allows recovery."},
+// {q:"Which is a stream cipher?",opts:["AES","RC4","RSA","SHA-256"],a:1,e:"RC4 is a stream cipher."},
+// {q:"Which is a block cipher?",opts:["AES","RC4","SHA","HMAC"],a:0,e:"AES is a block cipher."},
+// {q:"Initialization vectors (IVs) are used to:",opts:["Store keys","Ensure randomness","Encrypt hashes","Replace keys"],a:1,e:"IVs prevent pattern repetition."},
+// {q:"Which mode provides confidentiality AND integrity?",opts:["ECB","CBC","GCM","CTR"],a:2,e:"GCM provides authenticated encryption."},
+// {q:"ECB mode is discouraged because it:",opts:["Is slow","Reveals patterns","Uses IVs","Requires PKI"],a:1,e:"ECB leaks data patterns."},
+// {q:"Which is TRUE about hashing passwords?",opts:["Encrypt them","Use salts","Store plaintext","Reuse hashes"],a:1,e:"Salting strengthens password storage."},
+// {q:"Which attack targets weak passwords?",opts:["Brute force","Collision","Replay","Padding oracle"],a:0,e:"Brute force guesses passwords."},
+// {q:"A replay attack involves:",opts:["Reusing captured transmissions","Guessing keys","Breaking hashes","Changing ciphertext"],a:0,e:"Replays resend valid data."},
+// {q:"Nonce usage prevents:",opts:["Replay attacks","Brute force","Hash collisions","DDoS"],a:0,e:"Nonces ensure uniqueness."},
+// {q:"Which cryptographic goal ensures data wasnt altered?",opts:["Confidentiality","Integrity","Availability","Authenticity"],a:1,e:"Integrity detects modification."},
+// {q:"Which ensures sender authenticity?",opts:["Hashing","Digital signatures","Symmetric encryption","RAID"],a:1,e:"Signatures verify sender identity."},
+// {q:"Which key encrypts data in asymmetric crypto?",opts:["Private key","Public key","Session key","Master key"],a:1,e:"Public keys encrypt; private decrypt."},
+// {q:"Which key decrypts asymmetric data?",opts:["Public key","Private key","Session key","Shared key"],a:1,e:"Private keys decrypt."},
+// {q:"Which uses certificates to validate identity?",opts:["PKI","DLP","RAID","IDS"],a:0,e:"PKI manages trust."},
+// {q:"Certificate revocation is checked via:",opts:["CRL or OCSP","AES","RAID","TLS only"],a:0,e:"CRL/OCSP verify cert validity."},
+// {q:"Which attack exploits weak IV handling?",opts:["Replay","Padding oracle","Collision","Tailgating"],a:1,e:"Padding oracle abuses crypto implementation."},
+// {q:"Which crypto principle limits damage from compromise?",opts:["Key rotation","Obfuscation","Longer passwords","Compression"],a:0,e:"Rotation reduces exposure window."},
+// {q:"Which tool signs software updates?",opts:["Digital signatures","AES","HMAC only","DLP"],a:0,e:"Signatures verify update authenticity."},
+// {q:"Which provides both encryption and authentication?",opts:["AES-GCM","ECB","SHA-256","RSA alone"],a:0,e:"GCM provides AEAD."},
+// {q:"Which is NOT a valid cryptographic goal?",opts:["Confidentiality","Integrity","Availability","Non-repudiation"],a:2,e:"Availability is not cryptographic."},
+// {q:"Which crypto solution protects backups?",opts:["Encryption","RAID","Hashing","Load balancing"],a:0,e:"Encrypting backups protects confidentiality."},
+// {q:"Which ensures encrypted data cannot be decrypted without key?",opts:["Strong key management","Obfuscation","RAID","Tokenization"],a:0,e:"Key management is critical."},
+// {q:"Which crypto failure is MOST dangerous?",opts:["Key reuse","Key compromise","Long passwords","Key rotation"],a:1,e:"Compromised keys break security."},
+// {q:"Which protects against MITM attacks?",opts:["Certificate validation","Hashing","RAID","Tokenization"],a:0,e:"Cert validation ensures trust."},
+// {q:"Which attack targets encryption keys?",opts:["Brute force","Collision","Replay","Tailgating"],a:0,e:"Brute force attempts key guessing."},
+// {q:"Which crypto method is fastest for bulk data?",opts:["AES","RSA","ECC","DSA"],a:0,e:"Symmetric crypto is fastest."}
+// ];
 
 // const questions = [
   
@@ -401,7 +396,337 @@ const questions = [
 // ];
 
 // --- Quiz engine ---
+const questions = [
+{q:"What is the primary goal of risk management in an organization?",opts:["Eliminate all risk","Identify and reduce risk to acceptable levels","Transfer all risk to vendors","Ignore low-impact risks"],a:1,e:"Risk management focuses on identifying risks and reducing them to a level the organization is willing to tolerate, not eliminating all risk."},
 
+{q:"Which step of the risk management process involves discovering potential threats and vulnerabilities?",opts:["Risk analysis","Risk identification","Risk reporting","Risk mitigation"],a:1,e:"Risk identification is the phase where threats, vulnerabilities, and potential risk scenarios are identified."},
+
+{q:"What does qualitative risk analysis primarily rely on?",opts:["Exact dollar values","Statistical models","Subjective judgment and ranking","Historical loss data"],a:2,e:"Qualitative analysis ranks risks using descriptive terms like high, medium, and low based on judgment and experience."},
+
+{q:"Which output is most commonly associated with qualitative risk analysis?",opts:["Annualized loss expectancy","Risk heat map","Exposure factor","Single loss expectancy"],a:1,e:"Qualitative analysis often produces visual tools like risk heat maps to compare likelihood and impact."},
+
+{q:"What is the main characteristic of quantitative risk analysis?",opts:["Uses opinions and estimates","Uses numerical values and formulas","Avoids financial metrics","Only applies to compliance risks"],a:1,e:"Quantitative risk analysis assigns numeric values, often monetary, to risk factors."},
+
+{q:"What does Single Loss Expectancy (SLE) represent?",opts:["Total yearly cost of a risk","Cost of one occurrence of a risk","Probability of a risk event","Acceptable loss threshold"],a:1,e:"SLE represents the financial impact of a single occurrence of a risk event."},
+
+{q:"Which value represents how often a risk is expected to occur in one year?",opts:["Exposure factor","Annualized loss expectancy","Annualized rate of occurrence","Risk appetite"],a:2,e:"ARO estimates the frequency of a risk event occurring annually."},
+
+{q:"How is Annualized Loss Expectancy (ALE) calculated?",opts:["SLE × ARO","ARO ÷ SLE","Exposure factor × impact","Likelihood × risk appetite"],a:0,e:"ALE is calculated by multiplying the single loss expectancy by the annualized rate of occurrence."},
+
+{q:"Which term describes the percentage of asset loss caused by a risk event?",opts:["Exposure factor","Risk threshold","ARO","Impact score"],a:0,e:"Exposure factor represents the proportion of asset value lost when a risk event occurs."},
+
+{q:"Why is quantitative risk analysis sometimes difficult to perform?",opts:["It is too subjective","Accurate data is often unavailable","It ignores financial impact","It cannot be automated"],a:1,e:"Quantitative analysis depends on reliable historical and financial data, which may not always exist."},
+
+{q:"What document formally tracks identified risks and related details?",opts:["Business impact analysis","Risk register","Disaster recovery plan","Incident response plan"],a:1,e:"A risk register records risks, owners, likelihood, impact, and mitigation strategies."},
+
+{q:"Who is responsible for monitoring and managing a specific risk?",opts:["Risk auditor","Risk owner","System custodian","Compliance officer"],a:1,e:"The risk owner is accountable for monitoring and responding to a specific risk."},
+
+{q:"What is a key risk indicator (KRI)?",opts:["A mitigation technique","A metric signaling increased risk","A compliance requirement","A recovery objective"],a:1,e:"KRIs are measurable values used to indicate rising risk exposure."},
+
+{q:"What does risk tolerance describe?",opts:["Maximum acceptable loss","Organization’s overall attitude toward risk","Specific risk response method","Risk reporting frequency"],a:0,e:"Risk tolerance defines how much loss an organization can withstand for a given risk."},
+
+{q:"How does risk appetite differ from risk tolerance?",opts:["Appetite is specific, tolerance is broad","Appetite defines willingness, tolerance defines limits","They mean the same thing","Tolerance applies only to finance"],a:1,e:"Risk appetite reflects overall willingness to take risk, while tolerance sets boundaries for individual risks."},
+
+{q:"Which risk appetite type favors growth even if risk increases?",opts:["Conservative","Neutral","Expansionary","Avoidant"],a:2,e:"An expansionary appetite accepts higher risk to achieve growth or innovation."},
+
+{q:"Which risk management strategy involves purchasing insurance?",opts:["Avoid","Mitigate","Transfer","Accept"],a:2,e:"Risk transfer shifts financial impact to another party, such as an insurer."},
+
+{q:"What does risk mitigation aim to do?",opts:["Eliminate all risk","Reduce likelihood or impact","Document the risk","Ignore low-risk events"],a:1,e:"Mitigation reduces the probability or impact of a risk through controls."},
+
+{q:"Which strategy is chosen when the cost of controls exceeds the risk impact?",opts:["Avoid","Transfer","Accept","Mitigate"],a:2,e:"Risk acceptance is chosen when further controls are not cost-effective."},
+
+{q:"What is risk avoidance?",opts:["Sharing risk with vendors","Reducing risk impact","Eliminating the activity causing risk","Monitoring risk indicators"],a:2,e:"Avoidance removes the activity entirely to eliminate the associated risk."},
+
+{q:"What is the purpose of risk reporting?",opts:["Eliminate risks","Inform stakeholders","Assign blame","Meet only legal requirements"],a:1,e:"Risk reporting communicates risk status and decisions to stakeholders."},
+
+{q:"Which analysis evaluates how disruptions affect business operations?",opts:["Risk register","Business impact analysis","Threat modeling","Gap analysis"],a:1,e:"BIA identifies critical processes and the impact of their disruption."},
+
+{q:"What does Recovery Time Objective (RTO) define?",opts:["Maximum data loss","Time to restore operations","Frequency of backups","System uptime percentage"],a:1,e:"RTO specifies how quickly systems must be restored after an outage."},
+
+{q:"What does Recovery Point Objective (RPO) measure?",opts:["Acceptable downtime","Acceptable data loss","Mean repair time","Backup frequency"],a:1,e:"RPO defines how much data loss is acceptable, measured in time."},
+
+{q:"Which metric measures average time to fix a failure?",opts:["MTBF","MTTR","RTO","RPO"],a:1,e:"Mean Time to Repair (MTTR) measures how long it takes to restore a system."},
+
+{q:"What is the main advantage of qualitative over quantitative analysis?",opts:["More precise","Faster and easier","Uses financial data","More objective"],a:1,e:"Qualitative analysis is quicker and easier when precise data is unavailable."},
+
+{q:"Which analysis type is better for cost–benefit decisions?",opts:["Qualitative","Quantitative","Ad hoc","Descriptive"],a:1,e:"Quantitative analysis supports cost-based decisions using financial metrics."},
+
+{q:"What does likelihood describe in risk analysis?",opts:["Severity of damage","Chance a risk will occur","Cost of controls","Risk owner responsibility"],a:1,e:"Likelihood estimates the probability of a risk event happening."},
+
+{q:"What role does impact play in risk analysis?",opts:["Determines probability","Measures consequences if risk occurs","Defines mitigation cost","Sets risk appetite"],a:1,e:"Impact measures the severity of damage caused by a risk event."},
+
+{q:"Why are recurring risk assessments important?",opts:["They replace audits","Risks change over time","They eliminate risk","They reduce compliance costs"],a:1,e:"Recurring assessments account for changes in threats, systems, and business context."},
+
+{q:"Which risk assessment type is performed once for a specific event?",opts:["Continuous","Ad hoc","Recurring","Baseline"],a:1,e:"Ad hoc assessments are conducted for specific, one-time situations."},
+
+{q:"What is continuous risk assessment?",opts:["Annual review","Real-time ongoing evaluation","One-time analysis","Vendor-only assessment"],a:1,e:"Continuous assessment monitors risks on an ongoing basis."},
+
+{q:"Why assign a risk threshold?",opts:["To eliminate uncertainty","To define escalation points","To avoid reporting risks","To meet audit requirements"],a:1,e:"Risk thresholds define when risks must be escalated or addressed."},
+
+{q:"Which factor most influences risk prioritization?",opts:["Asset color","Likelihood and impact","Risk owner seniority","Assessment frequency"],a:1,e:"Risks are prioritized based on how likely they are and how severe their impact would be."},
+
+{q:"What happens when risk exceeds tolerance?",opts:["Risk is ignored","Risk must be addressed","Risk is automatically accepted","Risk is transferred"],a:1,e:"Risks above tolerance require mitigation, transfer, or avoidance."},
+
+{q:"Why is documentation important in risk management?",opts:["For legal defense only","For consistency and tracking","To replace controls","To reduce assessments"],a:1,e:"Documentation ensures risks are tracked, reviewed, and consistently managed."},
+
+{q:"Which role typically approves risk acceptance?",opts:["System administrator","Risk owner or management","End user","Auditor"],a:1,e:"Management or the risk owner formally approves accepted risks."},
+
+{q:"What does probability refer to in quantitative analysis?",opts:["Impact value","Likelihood value","Control strength","Asset value"],a:1,e:"Probability is the numeric likelihood that a risk event will occur."},
+
+{q:"Why might an organization choose risk transfer over mitigation?",opts:["Controls are unavailable","Insurance is cheaper","Risk has no impact","Risk appetite is zero"],a:1,e:"Transfer may be cheaper or more practical than implementing controls."},
+
+{q:"Which element connects risk management to business goals?",opts:["Technical controls","Risk appetite","Vulnerability scans","Incident response"],a:1,e:"Risk appetite aligns security decisions with business objectives."},
+
+{q:"What is a common limitation of qualitative analysis?",opts:["Too slow","Subjectivity","Requires financial data","Hard to explain"],a:1,e:"Qualitative analysis relies on judgment, which can vary between assessors."},
+
+{q:"Which value would change if asset value increases?",opts:["ARO","Exposure factor","SLE","Likelihood"],a:2,e:"SLE depends on asset value, so higher asset value increases SLE."},
+
+{q:"Why maintain a risk register over time?",opts:["For audits only","To track risk lifecycle","To eliminate reassessments","To avoid reporting"],a:1,e:"The risk register tracks risks from identification through resolution."},
+
+{q:"What is the relationship between risk and controls?",opts:["Controls create risk","Controls reduce risk","Controls increase likelihood","Controls replace assessment"],a:1,e:"Controls are implemented to reduce risk likelihood or impact."},
+
+{q:"Which metric is most useful for insurance decisions?",opts:["Qualitative ranking","ALE","Risk appetite","Risk threshold"],a:1,e:"ALE provides an estimated annual financial loss, useful for insurance decisions."},
+
+{q:"Why is management involvement critical in risk management?",opts:["They install controls","They define acceptable risk","They perform scans","They document incidents"],a:1,e:"Management defines risk appetite and approves major risk decisions."},
+
+{q:"Which approach best supports long-term strategic planning?",opts:["Ad hoc assessment","Qualitative analysis only","Quantitative analysis","Ignoring low risks"],a:2,e:"Quantitative analysis provides measurable data useful for long-term planning."}
+,
+{q:"What is third-party vendor risk?",opts:["Risk from internal employees","Risk introduced by external partners","Risk from outdated software","Risk from natural disasters"],a:1,e:"Third-party vendor risk refers to security, compliance, and operational risks introduced by external vendors that have access to systems, data, or processes."},
+
+{q:"Why are third-party vendors considered a security concern?",opts:["They always lack security","They may have weaker security controls","They increase internal staffing","They reduce attack surface"],a:1,e:"Vendors may not follow the same security standards, making them a potential entry point for attackers."},
+
+{q:"What is supply chain risk?",opts:["Risk from physical shipping delays","Risk from dependencies on external suppliers","Risk from internal misconfiguration","Risk from user behavior"],a:1,e:"Supply chain risk arises when an organization depends on external suppliers for software, hardware, or services."},
+
+{q:"Which is an example of a supply chain attack?",opts:["Phishing an employee","Compromising a software update server","DDoS attack on a website","Brute-forcing passwords"],a:1,e:"Supply chain attacks compromise trusted vendors or update mechanisms to spread malicious code."},
+
+{q:"Why are supply chain attacks difficult to detect?",opts:["They use weak encryption","They come from trusted sources","They generate high traffic","They target only hardware"],a:1,e:"Because updates or components appear legitimate, malicious activity can go unnoticed."},
+
+{q:"What is vendor assessment?",opts:["Contract negotiation","Evaluating vendor security posture","Auditing employees","Testing backups"],a:1,e:"Vendor assessment evaluates a vendor’s security controls, policies, and risk exposure before engagement."},
+
+{q:"When should vendor assessments be performed?",opts:["Only after incidents","Only during audits","Before and during the relationship","After contract termination"],a:2,e:"Assessments should be done before onboarding and periodically during the vendor relationship."},
+
+{q:"What is a key goal of vendor selection?",opts:["Lowest cost","Fastest delivery","Acceptable risk level","Largest market share"],a:2,e:"Vendor selection balances business needs with acceptable security and compliance risk."},
+
+{q:"Why is continuous vendor monitoring important?",opts:["Vendors never change","Risks remain static","Vendor risk can change over time","It replaces assessments"],a:2,e:"A vendor’s security posture may change, requiring ongoing monitoring."},
+
+{q:"Which document defines vendor security expectations?",opts:["Risk register","Incident response plan","Contract or agreement","Acceptable use policy"],a:2,e:"Contracts and agreements formalize security, compliance, and liability requirements."},
+
+{q:"What is a common vendor contract security clause?",opts:["Change management","Right to audit","Disaster declaration","Asset inventory"],a:1,e:"Right-to-audit clauses allow organizations to verify vendor security controls."},
+
+{q:"What does an SLA primarily define?",opts:["Security controls","Legal penalties","Service performance expectations","Ownership of data"],a:2,e:"SLAs define uptime, response time, and service performance metrics."},
+
+{q:"What agreement focuses on protecting sensitive information?",opts:["SLA","NDA","BPA","MOU"],a:1,e:"NDAs legally bind parties to protect confidential information."},
+
+{q:"Which agreement defines working relationships without legal enforceability?",opts:["SLA","NDA","MOU","SOW"],a:2,e:"MOUs outline understanding and intent but are typically non-binding."},
+
+{q:"What is the purpose of a Statement of Work (SOW)?",opts:["Define confidentiality","Define scope and deliverables","Define legal penalties","Define data ownership"],a:1,e:"An SOW clearly defines tasks, timelines, and deliverables for vendor work."},
+
+{q:"What is a Business Partner Agreement (BPA)?",opts:["Security-only agreement","Contract defining shared responsibilities","Informal understanding","Incident response plan"],a:1,e:"BPAs define roles, responsibilities, and expectations between partners."},
+
+{q:"Which risk arises when a vendor handles sensitive data?",opts:["Reputational risk","Data exposure risk","Availability risk","Environmental risk"],a:1,e:"Vendors with data access increase the risk of data breaches or misuse."},
+
+{q:"What is fourth-party risk?",opts:["Risk from competitors","Risk from vendor’s vendors","Risk from internal teams","Risk from regulators"],a:1,e:"Fourth-party risk comes from subcontractors used by your vendors."},
+
+{q:"Why is visibility into fourth parties important?",opts:["They are internal users","They share credentials","They extend the attack surface","They reduce cost"],a:2,e:"Fourth parties can introduce hidden risks beyond direct vendor control."},
+
+{q:"Which control helps reduce supply chain risk?",opts:["Code signing","Password rotation","Network segmentation","User training"],a:0,e:"Code signing ensures software updates come from trusted, verified sources."},
+
+{q:"What role do contracts play in risk transfer?",opts:["They eliminate risk","They assign responsibility","They prevent attacks","They detect threats"],a:1,e:"Contracts can transfer liability and responsibility to vendors."},
+
+{q:"What happens if a vendor fails compliance requirements?",opts:["No impact","Immediate termination","Increased risk exposure","Automatic mitigation"],a:2,e:"Non-compliant vendors increase legal, regulatory, and security risk."},
+
+{q:"Which assessment checks vendor adherence to standards?",opts:["Gap analysis","Compliance assessment","Threat modeling","BIA"],a:1,e:"Compliance assessments verify alignment with laws, regulations, and frameworks."},
+
+{q:"What is a common risk of outsourced IT services?",opts:["Increased control","Reduced attack surface","Loss of visibility","Improved compliance"],a:2,e:"Outsourcing can reduce direct oversight of systems and controls."},
+
+{q:"Why include incident notification clauses in contracts?",opts:["To prevent incidents","To define breach response timing","To avoid audits","To reduce monitoring"],a:1,e:"These clauses require vendors to promptly notify organizations of incidents."},
+
+{q:"What type of attack targets trust relationships?",opts:["Insider threat","Supply chain attack","DoS attack","Credential stuffing"],a:1,e:"Supply chain attacks exploit trusted vendor relationships."},
+
+{q:"Which vendor risk is MOST critical for cloud providers?",opts:["Physical theft","Data confidentiality","Office location","Employee turnover"],a:1,e:"Cloud providers often handle sensitive data, making confidentiality critical."},
+
+{q:"What does vendor due diligence involve?",opts:["Pricing comparison","Security and risk evaluation","Contract signing","System deployment"],a:1,e:"Due diligence ensures vendors meet security, financial, and operational requirements."},
+
+{q:"Which factor increases vendor risk?",opts:["Strong encryption","Lack of audits","Regular assessments","Clear SLAs"],a:1,e:"Lack of audits reduces visibility into vendor security practices."},
+
+{q:"What is a key indicator of poor vendor security posture?",opts:["Documented policies","Unpatched systems","Regular reporting","Employee training"],a:1,e:"Unpatched systems indicate weak vulnerability management."},
+
+{q:"Why is vendor offboarding important?",opts:["To save costs","To revoke access","To increase uptime","To avoid assessments"],a:1,e:"Offboarding ensures vendor access is removed when no longer needed."},
+
+{q:"Which risk management strategy applies to vendor insurance?",opts:["Avoidance","Mitigation","Transfer","Acceptance"],a:2,e:"Insurance transfers financial risk associated with vendor incidents."},
+
+{q:"What is a common supply chain risk for hardware?",opts:["Malicious firmware","Weak passwords","Phishing","SQL injection"],a:0,e:"Compromised firmware can introduce persistent threats at a low level."},
+
+{q:"Which process verifies vendor claims?",opts:["Self-attestation","Independent audit","Risk acceptance","Asset valuation"],a:1,e:"Independent audits provide objective validation of vendor controls."},
+
+{q:"What is vendor lock-in?",opts:["Security breach","Dependency risk","Compliance failure","Data loss"],a:1,e:"Vendor lock-in increases risk by making it difficult to switch providers."},
+
+{q:"Why diversify vendors?",opts:["Reduce cost","Reduce dependency risk","Improve branding","Increase contracts"],a:1,e:"Using multiple vendors reduces reliance on a single provider."},
+
+{q:"Which document defines acceptable vendor behavior?",opts:["Code of conduct","Risk register","Threat model","BIA"],a:0,e:"Codes of conduct set ethical and operational expectations for vendors."},
+
+{q:"What is the main governance role in vendor risk?",opts:["System admin","Executive management","End user","Help desk"],a:1,e:"Management defines policies, risk appetite, and approval authority."},
+
+{q:"Why align vendor risk with governance?",opts:["To increase profit","To meet business objectives","To reduce audits","To eliminate controls"],a:1,e:"Governance ensures vendor risk decisions support organizational goals."},
+
+{q:"Which regulation often impacts third-party vendors?",opts:["GDPR","DNS","NAT","FTP"],a:0,e:"Regulations like GDPR impose requirements on vendors handling personal data."},
+
+{q:"What is the impact of poor vendor governance?",opts:["Improved security","Reduced compliance","Increased risk exposure","Faster delivery"],a:2,e:"Weak governance leads to unmanaged and escalating vendor risks."},
+
+{q:"Which activity supports vendor accountability?",opts:["Risk acceptance","Performance reviews","Threat hunting","Pen testing"],a:1,e:"Regular reviews hold vendors accountable for performance and security."},
+
+{q:"What is the purpose of vendor risk scoring?",opts:["Assign blame","Rank vendor risk levels","Eliminate vendors","Reduce costs"],a:1,e:"Risk scoring helps prioritize vendor oversight based on risk."},
+
+{q:"Which risk increases when vendors use subcontractors?",opts:["Operational risk","Fourth-party risk","Reputation risk","Financial risk"],a:1,e:"Subcontractors introduce additional, less-visible risk."},
+
+{q:"Why document vendor risks?",opts:["For audits only","For transparency and tracking","To avoid mitigation","To reduce contracts"],a:1,e:"Documentation supports ongoing management and accountability."},
+
+{q:"What is a common control for vendor access?",opts:["Shared accounts","Least privilege","Open VPN","Static credentials"],a:1,e:"Least privilege limits vendor access to only what is necessary."},
+
+{q:"Which factor should trigger vendor reassessment?",opts:["Stable operations","Security incident","Contract renewal","Low usage"],a:1,e:"Incidents indicate potential weaknesses requiring reassessment."},
+
+{q:"Why include termination clauses?",opts:["To reduce cost","To exit risky relationships","To improve uptime","To enforce compliance"],a:1,e:"Termination clauses allow organizations to disengage from risky vendors."},
+
+{q:"Which risk is most affected by vendor downtime?",opts:["Confidentiality","Integrity","Availability","Authenticity"],a:2,e:"Vendor outages directly impact system and service availability."},
+
+{q:"What is the ultimate goal of third-party risk management?",opts:["Eliminate vendors","Eliminate all risk","Manage risk to acceptable levels","Maximize outsourcing"],a:2,e:"The goal is to manage and control vendor risk within acceptable limits."}
+
+,
+{q:"What is the primary goal of asset management?",opts:["Increase asset cost","Track and protect assets","Eliminate all assets","Avoid documentation"],a:1,e:"Asset management ensures assets are identified, tracked, protected, and managed throughout their lifecycle."},
+
+{q:"Why is maintaining an accurate asset inventory important?",opts:["For budgeting only","To identify and manage security risks","To reduce employee workload","To avoid audits"],a:1,e:"An accurate inventory helps identify what needs protection and reduces unknown or unmanaged risks."},
+
+{q:"Which asset type includes laptops and mobile phones?",opts:["Logical assets","Information assets","Physical assets","Intangible assets"],a:2,e:"Physical assets include tangible items such as hardware and mobile devices."},
+
+{q:"What is acquisition in asset management?",opts:["Disposing assets","Purchasing or obtaining assets","Tracking incidents","Documenting changes"],a:1,e:"Acquisition refers to obtaining assets through purchase or procurement."},
+
+{q:"Why should security be considered during procurement?",opts:["To lower costs","To speed deployment","To ensure secure configurations","To avoid vendors"],a:2,e:"Security requirements during procurement help prevent insecure systems from entering the environment."},
+
+{q:"What is mobile asset deployment concerned with?",opts:["Office layout","Secure configuration of mobile devices","User hiring","Network topology"],a:1,e:"Mobile asset deployment focuses on securely configuring and managing mobile devices."},
+
+{q:"Which control is common for mobile devices?",opts:["Full disk encryption","Port forwarding","Open Wi-Fi","Shared accounts"],a:0,e:"Encryption protects data on lost or stolen mobile devices."},
+
+{q:"What is asset tagging used for?",opts:["Decoration","Tracking and identification","Network routing","Access control"],a:1,e:"Asset tags help uniquely identify and track assets."},
+
+{q:"Which phase ensures assets are securely removed from service?",opts:["Acquisition","Deployment","Disposal","Inventory"],a:2,e:"Disposal and decommissioning ensure assets are retired securely."},
+
+{q:"Why is data sanitization important during disposal?",opts:["To reuse passwords","To prevent data leakage","To save storage","To speed audits"],a:1,e:"Sanitization ensures sensitive data cannot be recovered from retired assets."},
+
+{q:"What does decommissioning involve?",opts:["Upgrading systems","Removing assets from production","Encrypting data","Backing up files"],a:1,e:"Decommissioning removes systems from active use in a controlled manner."},
+
+{q:"Which method securely destroys data?",opts:["Formatting","Deleting files","Cryptographic wipe","Moving to recycle bin"],a:2,e:"Cryptographic wiping renders data unrecoverable by destroying encryption keys."},
+
+{q:"What is change management?",opts:["Asset tracking","Managing system modifications","Incident handling","Vendor oversight"],a:1,e:"Change management controls and documents changes to systems and environments."},
+
+{q:"Why is change management important for security?",opts:["It slows attackers","It prevents unauthorized changes","It removes risks","It replaces audits"],a:1,e:"Controlled changes reduce misconfigurations and security incidents."},
+
+{q:"What is a standard change?",opts:["Emergency fix","High-risk change","Routine low-risk change","Undocumented change"],a:2,e:"Standard changes are pre-approved and low risk."},
+
+{q:"What defines an emergency change?",opts:["Planned upgrade","Low impact","Requires immediate action","Routine maintenance"],a:2,e:"Emergency changes address urgent issues and may bypass normal approval temporarily."},
+
+{q:"Who typically approves significant changes?",opts:["End users","Change advisory board (CAB)","Help desk","Auditors"],a:1,e:"The CAB reviews and approves major changes."},
+
+{q:"What is the purpose of a change advisory board?",opts:["Implement changes","Approve and assess changes","Track assets","Respond to incidents"],a:1,e:"CAB evaluates risk, impact, and scheduling of changes."},
+
+{q:"What should be assessed before implementing a change?",opts:["Vendor profit","Risk and impact","User preference","Asset value only"],a:1,e:"Assessing risk and impact helps prevent outages or security issues."},
+
+{q:"Why test changes before deployment?",opts:["To delay rollout","To reduce risk of failure","To increase cost","To avoid documentation"],a:1,e:"Testing identifies issues before changes affect production systems."},
+
+{q:"What is a rollback plan?",opts:["Backup schedule","Plan to reverse a change","Change approval","Disposal procedure"],a:1,e:"Rollback plans restore systems if a change fails."},
+
+{q:"What is change documentation used for?",opts:["Blame assignment","Tracking and auditing","Replacing policies","Reducing controls"],a:1,e:"Documentation provides traceability and accountability for changes."},
+
+{q:"Which risk arises from undocumented changes?",opts:["Improved uptime","Configuration drift","Better performance","Lower costs"],a:1,e:"Undocumented changes cause inconsistency and security gaps."},
+
+{q:"What is configuration drift?",opts:["Asset movement","Deviation from approved configurations","Vendor changes","Network congestion"],a:1,e:"Drift occurs when systems differ from approved baselines over time."},
+
+{q:"Why align asset management with change management?",opts:["To reduce staff","To maintain accurate inventories","To avoid audits","To increase downtime"],a:1,e:"Changes affect assets, so alignment keeps records accurate."},
+
+{q:"Which asset lifecycle stage includes updates and patches?",opts:["Acquisition","Deployment","Maintenance","Disposal"],a:2,e:"Maintenance covers ongoing updates and support."},
+
+{q:"What is a technical implication of poor change management?",opts:["Improved security","System outages","Lower costs","Faster recovery"],a:1,e:"Poorly managed changes can cause outages or vulnerabilities."},
+
+{q:"Why is approval important in change management?",opts:["To slow processes","To ensure accountability","To eliminate risk","To avoid testing"],a:1,e:"Approval ensures changes are reviewed and authorized."},
+
+{q:"What is the relationship between assets and risk?",opts:["Assets eliminate risk","Assets introduce risk","Assets reduce risk automatically","Assets are unrelated"],a:1,e:"Assets represent value that can be targeted or lost, creating risk."},
+
+{q:"Which change type poses the highest risk?",opts:["Standard","Emergency","Pre-approved","Routine"],a:1,e:"Emergency changes are higher risk due to limited review."},
+
+{q:"Why review changes after implementation?",opts:["To undo them","To confirm success","To assign blame","To update vendors"],a:1,e:"Post-implementation review verifies objectives were met."},
+
+{q:"What is the main benefit of structured change processes?",opts:["Speed","Consistency and security","Lower staffing","Less documentation"],a:1,e:"Structured processes reduce errors and security issues."},
+
+{q:"Which role ensures asset records are updated after changes?",opts:["End user","Asset owner or custodian","Auditor","Vendor"],a:1,e:"Asset custodians or owners maintain accurate records."},
+
+{q:"What happens if assets are not properly disposed?",opts:["Improved reuse","Increased data exposure","Lower costs","Better compliance"],a:1,e:"Improper disposal can lead to data leakage."},
+
+{q:"Why are baselines important in change management?",opts:["They increase cost","They define approved configurations","They replace monitoring","They slow changes"],a:1,e:"Baselines provide a reference for approved system states."},
+
+{q:"What is the ultimate goal of asset and change management?",opts:["Eliminate assets","Control cost only","Reduce risk and maintain stability","Maximize downtime"],a:2,e:"The goal is to manage assets and changes securely while minimizing risk."}
+,
+{q:"What is the primary purpose of audits and assessments?",opts:["Fix vulnerabilities","Evaluate security posture","Train employees","Install controls"],a:1,e:"Audits and assessments evaluate how well security controls, policies, and processes meet requirements and objectives."},
+
+{q:"What is the main difference between an audit and an assessment?",opts:["Audits are informal","Assessments are always external","Audits check compliance, assessments evaluate effectiveness","They are the same"],a:2,e:"Audits focus on compliance with standards or regulations, while assessments evaluate overall security effectiveness."},
+
+{q:"What is an internal audit?",opts:["Audit by regulators","Audit by third-party vendors","Audit conducted by the organization","Audit after an incident"],a:2,e:"Internal audits are performed by the organization to review its own controls and processes."},
+
+{q:"Why perform internal audits regularly?",opts:["To replace external audits","To identify gaps early","To eliminate all risks","To meet vendor requirements"],a:1,e:"Regular internal audits help detect weaknesses before external audits or incidents occur."},
+
+{q:"Who typically performs an internal assessment?",opts:["External regulators","Independent internal team","Vendors","Customers"],a:1,e:"Internal assessments are usually performed by a separate or independent internal team."},
+
+{q:"What is the first step in performing an internal assessment?",opts:["Fix issues","Define scope and objectives","Run scans","Write report"],a:1,e:"Defining scope and objectives ensures the assessment is focused and relevant."},
+
+{q:"What does assessment scope define?",opts:["Who approves changes","What systems and controls are reviewed","Incident response steps","Vendor contracts"],a:1,e:"Scope defines boundaries such as systems, locations, and controls included."},
+
+{q:"What is an external audit?",opts:["Audit by internal IT","Audit by third-party auditors","Audit of vendors only","Audit after breach"],a:1,e:"External audits are conducted by independent third parties."},
+
+{q:"Why are external audits important?",opts:["They eliminate risk","They provide independent validation","They replace controls","They fix issues automatically"],a:1,e:"External audits provide unbiased assurance to stakeholders and regulators."},
+
+{q:"Which standard often requires external audits?",opts:["NAT","PCI DSS","FTP","SNMP"],a:1,e:"Standards like PCI DSS require external audits for compliance."},
+
+{q:"What is the main risk of failing an external audit?",opts:["System downtime","Regulatory penalties","Better security","Lower costs"],a:1,e:"Audit failures can result in fines, penalties, or loss of certification."},
+
+{q:"What is penetration testing?",opts:["Compliance review","Simulated real-world attack","Vulnerability scanning","Risk acceptance"],a:1,e:"Penetration testing simulates attacks to identify exploitable weaknesses."},
+
+{q:"How does penetration testing differ from vulnerability scanning?",opts:["Scanning exploits systems","Pentesting validates exploitability","They are identical","Pentesting is automated"],a:1,e:"Pentesting actively exploits vulnerabilities, while scanning only identifies them."},
+
+{q:"What is the goal of reconnaissance in pentesting?",opts:["Exploit systems","Gather information","Fix vulnerabilities","Write reports"],a:1,e:"Reconnaissance gathers information about targets before exploitation."},
+
+{q:"Which activity is part of passive reconnaissance?",opts:["Port scanning","Packet capture","OSINT collection","Exploitation"],a:2,e:"Passive recon uses publicly available information without direct interaction."},
+
+{q:"Which activity is considered active reconnaissance?",opts:["Google searches","WHOIS lookup","Port scanning","Social media review"],a:2,e:"Active recon directly interacts with target systems."},
+
+{q:"What should be defined before performing a pentest?",opts:["Rollback plan","Rules of engagement","Incident response plan","Risk register"],a:1,e:"Rules of engagement define scope, methods, and limits of the test."},
+
+{q:"What is black-box testing?",opts:["Tester has full knowledge","Tester has no internal knowledge","Testing backups","Testing only networks"],a:1,e:"Black-box testing simulates an external attacker with no prior knowledge."},
+
+{q:"What is white-box testing?",opts:["No knowledge of systems","Limited access","Full knowledge of systems","External audit"],a:2,e:"White-box testing gives testers full system knowledge."},
+
+{q:"What is gray-box testing?",opts:["No access","Partial knowledge","Full access","Compliance testing"],a:1,e:"Gray-box testing provides limited internal information."},
+
+{q:"Why is documentation important in audits?",opts:["To assign blame","To prove compliance","To slow processes","To eliminate controls"],a:1,e:"Documentation demonstrates compliance and supports audit findings."},
+
+{q:"What is an audit finding?",opts:["Risk acceptance","Identified issue or gap","Mitigation control","Attack vector"],a:1,e:"Findings document gaps between current state and requirements."},
+
+{q:"What is attestation of findings?",opts:["Fixing vulnerabilities","Formal confirmation of results","Running scans","Updating policies"],a:1,e:"Attestation formally confirms the accuracy and acceptance of findings."},
+
+{q:"Who typically signs an attestation?",opts:["System admin","Executive management","End users","Auditors"],a:1,e:"Management signs to acknowledge and accept results."},
+
+{q:"Why is independence important for auditors?",opts:["Faster audits","Lower cost","Unbiased results","More controls"],a:2,e:"Independence ensures objective and credible audit outcomes."},
+
+{q:"What happens after audit findings are reported?",opts:["They are ignored","They are prioritized and remediated","They replace controls","They end assessments"],a:1,e:"Findings guide remediation and risk management actions."},
+
+{q:"Which activity validates remediation efforts?",opts:["Reassessment","Risk acceptance","Reconnaissance","Change management"],a:0,e:"Reassessments confirm that issues were properly fixed."},
+
+{q:"What is a common output of a pentest?",opts:["Patch file","Exploit code","Detailed report","Compliance certificate"],a:2,e:"Pentests produce reports detailing vulnerabilities and impact."},
+
+{q:"Why schedule audits regularly?",opts:["Threats never change","Security posture evolves","To avoid testing","To eliminate controls"],a:1,e:"Regular audits account for changing systems and threats."},
+
+{q:"What is the ultimate goal of audits, assessments, and pentesting?",opts:["Eliminate all vulnerabilities","Improve security posture","Meet vendor demands","Increase cost"],a:1,e:"The goal is to identify weaknesses and improve overall security."}
+
+
+
+]
 
 const STORAGE_KEY = "secplus_quiz_state_v1";
 
